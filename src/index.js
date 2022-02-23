@@ -2,16 +2,39 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {
+  ApolloClient,
+  gql,
+  InMemoryCache,
+  ApolloProvider,
+} from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'https://glowing-owl-94.hasura.app/v1/graphql',
+  cache: new InMemoryCache(),
+  headers: {
+    'x-hasura-admin-secret':
+      'adKSrtBAg0mbJa5aABAY0v40cXvOcXo6MTUU8BO73EGQMfNUF5mT5ltEoKGEYouk',
+  },
+});
+
+// client
+//   .query({
+//     query: gql`
+//       query getTodos {
+//         todos {
+//           done
+//           id
+//           text
+//         }
+//       }
+//     `,
+//   })
+//   .then((result) => console.log(result));
 
 ReactDOM.render(
-  <React.StrictMode>
+  <ApolloProvider client={client}>
     <App />
-  </React.StrictMode>,
+  </ApolloProvider>,
   document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
